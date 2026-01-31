@@ -1,0 +1,2 @@
+# PureFit
+A fitness Blog
