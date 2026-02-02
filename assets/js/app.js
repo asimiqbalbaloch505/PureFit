@@ -13,16 +13,16 @@ function renderPosts(page) {
     const globalIndex = posts.indexOf(post);
     
     return `
-      <div class="blog-post" onclick="location.href='article.html?id=${globalIndex}'" style="cursor: pointer;">
-        ${post.image ? `<img src="${post.image}" alt="${post.title}">` : `<div style="height:200px; background:#ddd;"></div>`}
+      <div class="blog-post" onclick="location.href='article.html?id=${globalIndex}'" style="cursor:pointer">
+        <img src="${post.image}" alt="${post.title}" loading="lazy">
         <div class="blog-content">
           <h2>${post.title}</h2>
           <p>${post.body.substring(0, 100)}...</p> 
-          <div class="read-article-link">READ ARTICLE &rarr;</div>
+          <span class="read-article-link">READ ARTICLE &rarr;</span>
         </div>
       </div>
     `;
-  }).join("");
+}).join("");
 }
 
 function loadSingleArticle() {
@@ -31,16 +31,17 @@ function loadSingleArticle() {
   const post = posts[id];
 
   if (!post) {
-    document.getElementById("article-display").innerHTML = "<h1>Article not found</h1>";
+    const display = document.getElementById("article-display");
+    if (display) display.innerHTML = "<h1>Article not found</h1>";
     return;
   }
 
-  // Set the tab title and the text heading
+  // PureFit Branding
   document.title = `PureFit | ${post.title}`;
-  document.getElementById("art-title").innerText = post.title;
   
-  // IMAGE LOGIC REMOVED: We no longer look for post.image here
+  const titleElem = document.getElementById("art-title");
+  const bodyElem = document.getElementById("art-body");
   
-  // Set the body content
-  document.getElementById("art-body").innerText = post.body;
+  if (titleElem) titleElem.innerText = post.title;
+  if (bodyElem) bodyElem.innerText = post.body;
 }
