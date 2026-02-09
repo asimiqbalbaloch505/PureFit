@@ -13,7 +13,7 @@ function renderPosts(page) {
     const globalIndex = posts.indexOf(post);
 
     return `
-      <a href="article.html?id=${globalIndex}" class="blog-post">
+      <a href="/article/?id=${globalIndex}" class="blog-post">
         <img src="${post.image}" alt="${post.title}" loading="lazy">
         <div class="blog-content">
           <h2>${post.title}</h2>
