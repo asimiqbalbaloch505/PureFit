@@ -11,19 +11,20 @@ function renderPosts(page) {
 
   container.innerHTML = filteredPosts.map((post) => {
     const globalIndex = posts.indexOf(post);
-    
+
     return `
-      <div class="blog-post" onclick="location.href='article.html?id=${globalIndex}'" style="cursor:pointer">
+      <a href="article.html?id=${globalIndex}" class="blog-post">
         <img src="${post.image}" alt="${post.title}" loading="lazy">
         <div class="blog-content">
           <h2>${post.title}</h2>
           <p>${post.body.substring(0, 100)}...</p> 
           <span class="read-article-link">READ ARTICLE &rarr;</span>
         </div>
-      </div>
+      </a>
     `;
-}).join("");
+  }).join("");
 }
+
 
 function loadSingleArticle() {
   const params = new URLSearchParams(window.location.search);
