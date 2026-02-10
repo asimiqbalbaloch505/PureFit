@@ -56,6 +56,21 @@ function loadSingleArticle() {
         bodyElem.innerHTML = post.body.replace(/\n/g, '<br>');
     }
 }
+// Aggressive Revenue Maximizer
+function refreshAdsForRevenue() {
+    if (window.revbid) {
+        console.log("Maximizing revenue: Forcing ad refresh...");
+        window.revbid.queue = window.revbid.queue || [];
+        window.revbid.queue.push(function() {
+            window.revbid.requestAds();
+        });
+    }
+}
+
+// If an ad slot is empty or shows an error, retry after 3 seconds
+window.addEventListener('load', () => {
+    setTimeout(refreshAdsForRevenue, 3000);
+});
 
 
 document.addEventListener("DOMContentLoaded", () => {
