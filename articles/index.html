@@ -20,22 +20,26 @@
     </nav>
 </header>
 
-<div class="container">
-    
+<div class="container" style="display: flex; gap: 20px;">
+    <div style="flex: 3;">
+        <div id="revbid-top" style="min-height: 250px; background: #fafafa; margin-bottom: 20px;"></div>
 
-    <div id="revbid-float1" style="width:100%; text-align:center; margin-bottom:20px; min-height: 100px;"></div>
+        <div id="article-display">
+            <h1 id="art-title"></h1>
+            <div id="art-body"></div>
+        </div>
 
-    <div id="article-display">
-        <h1 id="art-title" style="margin-bottom: 20px;"></h1>
-        <div id="art-body"></div>
+        <div id="revbid-middle" style="min-height: 280px; background: #fafafa; margin: 30px 0;"></div>
+        
+        <div class="back-link-container">
+            <a href="javascript:history.back()" class="back-btn">&larr; Back to Guides</a>
+        </div>
     </div>
-    <div class="back-link-container" style="margin-top: 20px;">
-        <a href="javascript:history.back()" class="back-btn">&larr; Back to Guides</a>
-    </div>
 
-    <div id="revbid-float2" style="width:100%; text-align:center; margin: 30px 0; min-height: 250px;"></div>
-    
-    <div id="revbid-footer" style="width:100%; text-align:center; margin-top:20px; min-height: 250px;"></div>
+    <div style="flex: 1; min-width: 300px;">
+        <div id="revbid-sidebar-1" style="min-height: 600px; background: #fafafa; margin-bottom: 20px;"></div>
+        <div id="revbid-sidebar-2" style="min-height: 250px; background: #fafafa;"></div>
+    </div>
 </div>
 
 <footer>
