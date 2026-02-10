@@ -42,18 +42,19 @@ function loadSingleArticle() {
     const display = document.getElementById("article-display");
 
     if (!post) {
-        if (display) display.innerHTML = "<h1>Article not found</h1><a href='/'>Return Home</a>";
+        if (display) {
+            display.innerHTML = "<h1>Article not found</h1><p>We couldn't find that post. <a href='/'>Return Home</a></p>";
+        }
         return;
     }
 
- 
     document.title = `PureFit | ${post.title}`;
     
- 
     if (titleElem) titleElem.innerText = post.title;
+
     if (bodyElem) {
-      
-        bodyElem.innerHTML = post.body.replace(/\n/g, '<br>');
+        // Formats text into readable paragraphs without the image
+        bodyElem.innerHTML = post.body.split('\n\n').map(p => `<p style="margin-bottom:20px;">${p.replace(/\n/g, '<br>')}</p>`).join("");
     }
 }
 // Aggressive Revenue Maximizer
