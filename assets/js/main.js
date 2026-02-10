@@ -1,0 +1,227 @@
+
+function renderPosts(page) {
+    const container = document.getElementById("posts");
+    if (!container) return;
+
+
+    const filteredPosts = posts.filter(post => post.page === page);
+
+    if (filteredPosts.length === 0) {
+        container.innerHTML = "<p>No posts available.</p>";
+        return;
+    }
+
+    
+    const html = filteredPosts.map((post) => {
+        const globalIndex = posts.indexOf(post);
+        return `
+            <a href="/articles/?id=${globalIndex}" class="blog-post">
+                <div class="image-container">
+                    <img src="${post.image}" alt="${post.title}" loading="lazy" width="300" height="200">
+                </div>
+                <div class="blog-content">
+                    <h2>${post.title}</h2>
+                    <p>${post.body.substring(0, 100)}...</p> 
+                    <span class="read-article-link">READ ARTICLE &rarr;</span>
+                </div>
+            </a>
+        `;
+    }).join("");
+
+    container.innerHTML = html;
+}
+
+
+function loadSingleArticle() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const post = posts[id];
+
+    const titleElem = document.getElementById("art-title");
+    const bodyElem = document.getElementById("art-body");
+    const display = document.getElementById("article-display");
+
+    if (!post) {
+        if (display) display.innerHTML = "<h1>Article not found</h1><a href='/'>Return Home</a>";
+        return;
+    }
+
+ 
+    document.title = `PureFit | ${post.title}`;
+    
+ 
+    if (titleElem) titleElem.innerText = post.title;
+    if (bodyElem) {
+      
+        bodyElem.innerHTML = post.body.replace(/\n/g, '<br>');
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    
+    const path = window.location.pathname;
+    
+    if (path.includes("workout")) renderPosts("workout");
+    else if (path.includes("nutrition")) renderPosts("nutrition");
+    else if (path.includes("journal")) renderPosts("journal");
+    else if (path === "/" || path.includes("index.html")) renderPosts("home");
+
+    // If we are on the article page, load the specific article
+    if (path.includes("articles")) {
+        loadSingleArticle();
+    }
+});
+const posts = [
+  /* ================= HOME PAGE (7 POSTS) ================= */
+  {
+    page: "home",
+    title: "Start Your Fitness Journey the Right Way",
+    image: "/assets/images/home1.webp",
+    body: "Embarking on a fitness journey often feels overwhelming due to the flood of conflicting information available online. Many beginners believe they need expensive gym memberships or high-end equipment to see results, but the truth is much simpler. Your initial focus should be on establishing a baseline of movement that fits into your current daily routine without causing excessive stress.\n\nThe most effective way to start is by choosing activities you actually enjoy, whether that is walking, swimming, or basic bodyweight exercises at home. When you enjoy the movement, you are far more likely to stick with it when your initial motivation begins to fade. Start with just fifteen to twenty minutes a day to build the habit before worrying about the intensity of the workout.\n\nPhysical change is a slow process that requires patience and a long-term perspective. Your body needs time to adapt to new physical demands, and trying to rush the process often leads to burnout or injury. Celebrate the small victories, such as having more energy throughout the day or sleeping better, rather than focusing solely on the scale.\n\nUltimately, the key to success is matching your fitness plan to your unique lifestyle. If you are a busy parent or a professional with a tight schedule, a complex two-hour gym routine is not sustainable. By keeping your approach simple and practical, you create a foundation for a healthier life that can last for decades rather than just a few weeks."
+  },
+  {
+    page: "home",
+    title: "Why Consistency Beats Motivation",
+    image: "/assets/images/home2.webp",
+    body: "Motivation is a powerful feeling that can get you through a difficult first week, but it is notoriously unreliable. It is a fleeting emotion influenced by your mood, the weather, or even how much sleep you had the night before. Relying solely on feeling 'inspired' to exercise means that your fitness progress will stop the moment life becomes challenging or stressful.\n\nConsistency, on the other hand, is the practice of showing up even when you don't want to. It is the transition from doing something because you feel like it to doing something because it is simply part of who you are. By shifting your focus from intensity to frequency, you build discipline that carries you through the days when motivation is nowhere to be found.\n\nSmall daily habits are the building blocks of long-term success. A ten-minute walk every single day is infinitely more valuable than a three-hour workout that you only perform once a month. These small repetitions signal to your brain that your health is a priority, eventually making the behavior automatic and effortless.\n\nLong-term fitness success is built in the quiet moments of discipline, not just the loud moments of inspiration. When you stop waiting for the perfect conditions to start, you take control of your results. Commit to the process, embrace the mundane days, and trust that the cumulative effect of your small efforts will eventually lead to incredible transformations."
+  },
+  {
+    page: "home",
+    title: "Simple Habits That Improve Overall Health",
+    image: "/assets/images/home3.webp",
+    body: "Achieving better health does not always require a complete lifestyle overhaul or a restrictive diet. Often, the most significant improvements come from small, manageable habits that address the fundamental needs of the human body. By focusing on hydration, movement, and rest, you can dramatically improve your physical and mental well-being without feeling deprived.\n\nDrinking enough water is perhaps the simplest habit with the highest return on investment. Proper hydration supports every metabolic function in your body, from digestion to cognitive performance. Carrying a reusable water bottle and sipping throughout the day ensures your cells are hydrated, which often leads to clearer skin and higher natural energy levels.\n\nMoving your body daily, even in small increments, is essential for cardiovascular health and joint mobility. You don't always need a structured workout; taking the stairs, gardening, or a quick stretching routine before bed all count toward your daily activity. These small bouts of movement help regulate blood sugar and improve your mood by releasing natural endorphins.\n\nFinally, prioritizing high-quality sleep is the glue that holds all other health habits together. During sleep, your body repairs tissue, balances hormones, and processes the information of the day. By creating a consistent wind-down routine and keeping your bedroom cool and dark, you ensure that you wake up refreshed and ready to tackle your goals."
+  },
+  {
+    page: "home",
+    title: "Fitness Is a Lifestyle, Not a Shortcut",
+    image: "/assets/images/home4.webp",
+    body: "In an era of viral 'quick fix' diets and 30-day body transformations, it is easy to view fitness as a temporary project with an end date. This mindset often leads to a cycle of extreme effort followed by total burnout. True fitness is not a destination you reach and then stop; it is a continuous lifestyle that evolves alongside you as you age.\n\nSustainable routines are built on the principle of balance rather than deprivation. Instead of cutting out every food you love or exercising until exhaustion, look for the 'middle path' that you can maintain indefinitely. A lifestyle approach allows for social dinners, rest days, and occasional treats without derailing your overall progress or causing unnecessary guilt.\n\nLong-term habits support not just your physical appearance, but your internal strength and energy levels. When you train for longevity, your goals shift from just losing weight to maintaining bone density, cardiovascular health, and mental clarity. This shift in perspective makes the journey more rewarding because the benefits are felt every single day in how you move and feel.\n\nAvoid the temptation of shortcuts that promise immediate results at the expense of your health. Real progress is measured in months and years, not days and weeks. By embracing fitness as a lifelong commitment, you remove the pressure of perfection and replace it with the steady, fulfilling growth of a healthy and vibrant life."
+  },
+  {
+    page: "home",
+    title: "How to Stay Active With a Busy Schedule",
+    image: "/assets/images/home5.webp",
+    body: "One of the most common barriers to fitness is the belief that you need large blocks of free time to be healthy. Between career demands, family obligations, and social commitments, finding an hour for the gym can feel impossible. However, the secret to staying active with a busy schedule is learning to integrate movement into the cracks of your day.\n\nShort 'exercise snacks' are an incredibly effective way to keep your metabolism high and your muscles active. A five-minute bodyweight circuit between meetings or a brisk ten-minute walk after lunch can add up to significant activity by the end of the week. These short bursts are easier to fit into a calendar than a full-hour session and provide a great mental break from work stress.\n\nHome exercises are another lifesaver for the time-strapped individual. Having a few go-to movements like squats, push-ups, and planks allows you to get a full-body workout without the commute to a gym. You can perform these in your pajamas or while dinner is in the oven, making it much harder to find an excuse to skip your daily movement.\n\nUltimately, staying active is about flexibility and intentionality. If you miss a planned workout, don't write off the whole day; instead, find a smaller way to move. By staying opportunistic with your activity, you prove to yourself that your health is a priority that can coexist with even the most demanding and hectic professional or personal schedules."
+  },
+  {
+    page: "home",
+    title: "The Importance of Quality Sleep",
+    image: "/assets/images/home6.webp",
+    body: "Sleep is frequently the first thing we sacrifice when life gets busy, yet it is the very foundation upon which all physical and mental health is built. It is during the hours of rest that your body performs its most critical maintenance work, including muscle repair and brain detoxification. Without adequate sleep, even the most perfect diet and workout plan will fail to yield optimal results.\n\nMost adults require between seven and nine hours of quality rest to function at their peak. During deep sleep, the body releases growth hormones that are essential for repairing the microscopic tears in muscle tissue caused by exercise. If you are training hard but not sleeping enough, you are essentially breaking your body down without giving it the chance to build back stronger.\n\nHormonal balance is also deeply tied to your sleep patterns. A lack of rest increases cortisol, the stress hormone, which can lead to increased fat storage and muscle loss. It also disrupts the hormones that regulate hunger, making you more likely to crave high-calorie, sugary foods the following day. This creates a difficult cycle that can sabotage your weight loss or performance goals.\n\nTo improve your sleep quality, focus on creating a consistent environment and routine. Limit blue light exposure from screens at least an hour before bed and try to keep your bedroom as dark and quiet as possible. By treating sleep with the same respect as your workouts and your nutrition, you unlock a higher level of recovery, energy, and overall health that will accelerate your progress."
+  },
+
+  /* ================= WORKOUT PAGE (7 POSTS) ================= */
+  {
+    page: "workout",
+    title: "Full Body Bodyweight Routine",
+    image: "/assets/images/workout1.webp",
+    body: "Building a strong, functional physique doesn't require a gym membership or a room full of expensive equipment. The most effective strength-building tools are actually your own limbs and the force of gravity. By mastering fundamental bodyweight movements, you can create a solid foundation of health and power from the comfort of your living room.\n\nThe squat stands as the essential movement for lower-body power, targeting the quadriceps, hamstrings, and glutes. To perform it correctly, stand with your feet shoulder-width apart and lower your hips as if sitting into a chair, ensuring your chest stays upright and your weight remains in your heels. For the upper body, the classic push-up remains king. It builds the chest, shoulders, and triceps while acting as a moving plank that demands total core stability.\n\nStability is just as important as movement, which is where the plank becomes vital. Unlike exercises that involve crunches, the plank teaches your core to resist movement and protect your spine. By holding your body in a straight line from head to heels while resting on your forearms, you build the kind of functional midsection strength that improves posture and prevents back pain. Integrating these movements with walking lunges creates a complete routine that hits every major muscle group.\n\nConsistency is the final and most important ingredient. Because this routine requires zero equipment, there are no excuses to skip a session, whether you are traveling or have a busy day at home. Perform a circuit of these exercises three to four times, focusing on slow, controlled movements rather than speed. As you progress, you can increase the repetitions or shorten the rest periods to keep challenging your body and seeing results."
+  },
+  {
+    page: "workout",
+    title: "The Power of Deadlifts",
+    image: "/assets/images/workout2.webp",
+    body: "The deadlift is often cited as the purest test of total body strength. It is a fundamental hinge movement that mimics real-world activities like picking up a heavy box or grocery bags from the floor. By engaging the entire 'posterior chain'—including the glutes, hamstrings, and back muscles—the deadlift builds a level of functional power that few other exercises can match.\n\nSafety and form are paramount when performing this lift. Before adding weight, you must master the hip hinge by pushing your glutes back while maintaining a flat, neutral spine. When you are ready to pull, ensure the bar stays close to your shins and drive through your heels to stand up straight. Avoid the common mistake of rounding your lower back, as this shifts the load away from your muscles and onto your spinal discs.\n\nBeyond just building muscle, deadlifts improve your grip strength and bone density. Because the exercise requires you to hold a significant amount of weight, it strengthens the connective tissues in your hands and forearms. Furthermore, the heavy loading of the skeleton stimulates the body to increase bone mineral density, which is a vital factor in long-term health and injury prevention as you age.\n\nIncorporating deadlifts into your routine should be done with intention and respect for recovery. Since the movement taxes the central nervous system heavily, it is often best performed once or twice a week. Start with a manageable weight and focus on the quality of each repetition. Over time, the strength you gain from the deadlift will transfer into every other lift in the gym and every physical task in your daily life."
+  },
+  {
+    page: "workout",
+    title: "HIIT: Maximize Fat Burn in 20 Minutes",
+    image: "/assets/images/workout3.webp",
+    body: "High-Intensity Interval Training, or HIIT, has revolutionized the way we approach cardiovascular fitness. It challenges the traditional idea that you need to spend hours on a treadmill to see results. By alternating between short bursts of maximum effort and brief recovery periods, you can achieve a higher level of fat burning and aerobic conditioning in a fraction of the time.\n\nA typical HIIT session might involve thirty seconds of sprinting or burpees followed by thirty seconds of walking or total rest. This cycle is repeated for fifteen to twenty minutes, pushing your heart rate into high zones that standard 'steady-state' cardio rarely reaches. The intensity of the work forces your body to adapt quickly, improving your heart's efficiency and your lungs' capacity for oxygen.\n\nOne of the primary benefits of HIIT is the 'afterburn' effect, scientifically known as excess post-exercise oxygen consumption. Because the workout is so intense, your body continues to burn calories at an elevated rate for several hours after you have finished exercising. This means you are still seeing the metabolic benefits of your 20-minute session long after you have left the gym or finished your home workout.\n\nWhile HIIT is incredibly effective, it is also demanding on the body and should be used strategically. It is best practiced two to three times per week to allow for proper muscle and nervous system recovery. If you are short on time but want to maintain high levels of fitness and body composition, HIIT is the ultimate tool for efficiency. Start at a level that feels challenging for you and gradually increase the intensity as your conditioning improves."
+  },
+  {
+    page: "workout",
+    title: "Yoga for Athletes and Lifters",
+    image: "/assets/images/workout4.webp",
+    body: "In the pursuit of strength and muscle size, many athletes and weightlifters overlook the critical component of flexibility. Rigid muscles are more prone to tears, and restricted joints can severely limit your range of motion in compound lifts like squats and overhead presses. Integrating yoga into a traditional lifting program provides the perfect balance between power and mobility.\n\nYoga poses, or asanas, focus on lengthening the muscle fibers and opening up the connective tissue that becomes tight during heavy lifting. By holding poses like 'Downward Dog' or 'Pigeon Pose,' you can release tension in the hamstrings, hips, and shoulders. This increased mobility allows you to achieve deeper squats and safer lifting positions, which ultimately leads to better performance and more muscle growth over time.\n\nBeyond the physical benefits, yoga introduces a level of breath control and mental focus that is invaluable under a heavy barbell. Learning to breathe deeply through discomfort in a difficult yoga pose translates directly into staying calm during a grueling set of squats. The mindfulness practiced on the mat helps you build a stronger mind-muscle connection, allowing for more intentional and effective movements during your strength training.\n\nAdding just one or two yoga sessions a week can make a profound difference in how your body feels and performs. You don't need to master complex inversions to see the benefits; even basic stretching and flow sequences will yield results. By treating mobility with the same importance as strength, you create a well-rounded and resilient body that is capable of high performance for many years to come."
+  },
+  {
+    page: "workout",
+    title: "Strength vs. Hypertrophy",
+    image: "/assets/images/workout5.webp",
+    body: "Understanding the difference between training for strength and training for hypertrophy is essential for reaching your specific fitness goals. While there is significant overlap between the two, the way you structure your sets, reps, and rest periods will dictate how your body adapts. If you want to move the heaviest weight possible, you are training for strength; if you want to maximize muscle size, you are training for hypertrophy.\n\nStrength training typically involves lower repetition ranges, usually between one and five reps per set, using very heavy weights. This style of training focuses on 'neurological efficiency,' teaching your nervous system to recruit as many muscle fibers as possible simultaneously. Because the load is so high, longer rest periods of three to five minutes are required to allow the body's energy systems to fully recover between sets.\n\nHypertrophy training, conversely, focuses on creating metabolic stress and muscle damage to signal growth. This is generally achieved in the eight to twelve repetition range with moderate weights and shorter rest periods of sixty to ninety seconds. The goal here is to maximize 'time under tension,' ensuring that the muscles are working long enough to trigger the hormonal responses that lead to increased muscle fiber size.\n\nMost balanced programs incorporate elements of both to build a physique that is both powerful and aesthetically pleasing. You might start a workout with a heavy strength movement and follow it with higher-rep hypertrophy exercises. By understanding these physiological mechanisms, you can tailor your training to match your priorities and ensure you are making the most efficient progress toward the body you want."
+  },
+  {
+    page: "workout",
+    title: "Core Stability: Beyond the Sit-up",
+    image: "/assets/images/workout6.webp",
+    body: "For many years, the sit-up was considered the gold standard for abdominal training, but our understanding of core function has evolved significantly. The primary role of the core is not to crunch the torso forward, but to act as a stabilizer for the spine and a bridge for transferring power between the upper and lower body. True core strength is found in your ability to resist unwanted movement.\n\nEffective core training should include 'anti-rotational' and 'anti-extension' movements. Exercises like the Pallof press, where you hold a cable or band steady while it tries to pull you sideways, teach your obliques and deep core muscles to maintain a neutral spine under tension. Similarly, movements like dead bugs or bird-dogs challenge you to move your limbs while keeping your lower back perfectly flat and stable against the floor.\n\nA strong core is your best defense against lower back pain and injury, especially during heavy lifts. When you squat or deadlift, your core muscles must create intra-abdominal pressure to support your vertebrae. If your core is weak, that pressure fails, and the load is transferred onto your joints and discs. By training your core to stay rigid, you create a 'natural weight belt' that protects your body during every physical task.\n\nShift your focus from 'working your abs' for aesthetics to 'building core stability' for function. While visible abs are a result of low body fat, a functional core is the result of consistent, targeted stability work. Incorporate planks, carries, and anti-rotational exercises into your routine at least three times a week. The result will be better posture, increased lifting power, and a much lower risk of injury in the long term."
+  },
+
+  /* ================= NUTRITION PAGE (7 POSTS) ================= */
+  {
+    page: "nutrition",
+    title: "Protein: The Building Block",
+    image: "/assets/images/nutrition1.webp",
+    body: "Protein is often called the building block of life, and for those with fitness goals, it is the most critical macronutrient. Every time you exercise, you create tiny microscopic tears in your muscle fibers. Protein provides the amino acids necessary to repair that damage, allowing your muscles to grow back stronger and larger than they were before the workout.\n\nGetting enough protein is not just for bodybuilders; it is essential for anyone looking to maintain a healthy metabolism and body composition. Protein has a high 'thermic effect,' meaning your body burns more calories digesting it than it does for fats or carbohydrates. Additionally, protein is highly satiating, helping you feel full for longer and making it much easier to stick to a calorie-controlled diet without constant hunger.\n\nSources of protein can vary widely based on your dietary preferences and needs. Animal products like chicken, eggs, and Greek yogurt are complete proteins, containing all the essential amino acids. However, plant-based sources like lentils, chickpeas, and quinoa are also excellent options when combined correctly throughout the day. The key is to include a reliable protein source in every single meal to ensure a steady supply for your body.\n\nYour individual protein needs depend on your activity level and body weight, but a general rule is to aim for a consistent intake every day. For most active individuals, this means consuming between 1.6 and 2.2 grams of protein per kilogram of body weight. By prioritizing protein in your diet, you support your recovery, protect your lean muscle mass, and create a strong foundation for your overall health and fitness journey."
+  },
+  {
+    page: "nutrition",
+    title: "Carbs are Fuel, Not the Enemy",
+    image: "/assets/images/nutrition2.webp",
+    body: "In the world of modern dieting, carbohydrates are often unfairly labeled as the primary cause of weight gain. However, for anyone maintaining an active lifestyle, carbs are the preferred source of energy for the brain and muscles. When you consume complex carbohydrates, your body breaks them down into glucose, which fuels your workouts and helps you maintain focus throughout the work day.\n\nChoosing the right types of carbohydrates is the key to reaping these benefits without the energy crashes. Focus on 'slow-releasing' sources like steel-cut oats, quinoa, sweet potatoes, and brown rice. These foods provide a steady stream of energy and are packed with fiber, which aids in digestion and keeps you feeling full for longer periods compared to processed sugars.\n\nTiming your carbohydrate intake can also significantly impact your performance and recovery. Consuming a serving of complex carbs a few hours before a workout ensures your glycogen stores are topped up, giving you the power to push through difficult sets. Similarly, eating carbs after exercise helps shuttle nutrients into your muscles, kickstarting the repair process and reducing overall fatigue.\n\nUltimately, fitness is about balance rather than elimination. Instead of cutting out an entire food group, learn to use carbohydrates as a strategic tool to power your journey. By focusing on whole, unprocessed sources and matching your intake to your activity level, you can enjoy sustained energy and better results without the restrictive mindset of traditional dieting."
+  },
+  {
+    page: "nutrition",
+    title: "Healthy Fats for Hormonal Health",
+    image: "/assets/images/nutrition3.webp",
+    body: "For many years, dietary fat was vilified and blamed for heart disease and weight gain. We now know that healthy fats are a vital part of a balanced diet and are essential for maintaining hormonal health. Your body uses fats to produce hormones, including those that regulate your metabolism, mood, and reproductive health. Without enough fat, your body's internal chemistry can become imbalanced.\n\nNot all fats are created equal, and the key is to distinguish between beneficial and harmful sources. Monounsaturated and polyunsaturated fats, found in foods like avocados, walnuts, flaxseeds, and olive oil, provide the essential fatty acids your body cannot produce on its own. These fats support brain function, help reduce inflammation, and allow your body to absorb fat-soluble vitamins like A, D, E, and K.\n\nHealthy fats also play a significant role in heart health and blood sugar regulation. Replacing saturated and trans fats with healthy unsaturated options can help improve cholesterol levels and support overall cardiovascular function. Furthermore, adding a healthy fat source to a meal slows down the absorption of carbohydrates, preventing sharp spikes in blood sugar and providing a steady sense of satiety.\n\nIncorporating healthy fats into your diet is simple but requires mindfulness regarding portion sizes, as fats are calorie-dense. A small handful of nuts, a tablespoon of olive oil on your salad, or a slice of avocado on your toast is often enough to reap the benefits. By embracing fats as a necessary nutrient rather than something to be feared, you support your body’s complex hormonal systems and long-term vitality."
+  },
+  {
+    page: "nutrition",
+    title: "The Truth About Intermittent Fasting",
+    image: "/assets/images/nutrition4.webp",
+    body: "Intermittent fasting has gained massive popularity as a weight loss tool, but it is often misunderstood as a 'magic' solution. At its core, fasting is simply a method of meal timing that restricts your eating to a specific window of time each day. By limiting the hours during which you eat, many people find it easier to maintain a calorie deficit without the need for complex meal tracking.\n\nThe most common approach is the 16:8 method, which involves fasting for sixteen hours and eating during an eight-hour window. This structure can help reduce late-night snacking, which is a major source of excess calories for many individuals. During the fasting period, your insulin levels drop significantly, which signals to your body that it should start using stored body fat for energy instead of glucose.\n\nBeyond weight loss, some studies suggest that intermittent fasting may improve cellular repair processes and brain health. When the body is not constantly focused on digestion, it can divert more energy toward 'autophagy,' a process where cells clean out damaged components. Many practitioners also report improved mental clarity and more stable energy levels throughout the day once their body has adapted to the schedule.\n\nIt is important to remember that the quality of food you eat during your window still matters. Fasting is not a license to eat unlimited junk food; you still need to prioritize protein, healthy fats, and micronutrients. Intermittent fasting is a tool, not a requirement, and it should be used in a way that fits your lifestyle and does not lead to an unhealthy relationship with food. If it helps you stay consistent and feel better, it can be a valuable addition to your health toolkit."
+  },
+  {
+    page: "nutrition",
+    title: "Hydration and Athletic Performance",
+    image: "/assets/images/nutrition5.webp",
+    body: "Hydration is the most overlooked aspect of fitness, yet it has an immediate and profound impact on your athletic performance. Your body is composed of approximately sixty percent water, and it is involved in every single physiological process. Even a mild level of dehydration, as little as two percent of your body weight, can lead to a significant drop in strength, endurance, and cognitive focus during a workout.\n\nWhen you are dehydrated, your blood volume decreases, which makes your heart work harder to pump oxygen and nutrients to your working muscles. This leads to early fatigue and a higher 'perceived exertion,' meaning the same workout feels much harder than it would if you were properly hydrated. Water also plays a critical role in lubricating your joints and regulating your body temperature through sweat.\n\nTo maintain optimal performance, you should aim to drink water steadily throughout the day, not just when you feel thirsty. By the time you feel thirst, you are likely already slightly dehydrated. For intense workouts lasting longer than an hour or those in hot environments, adding electrolytes like sodium, potassium, and magnesium is essential to replace what is lost through perspiration and prevent muscle cramping.\n\nMonitor your hydration levels by paying attention to the color of your urine; a pale straw color generally indicates that you are well-hydrated. Proper hydration supports your recovery by helping to flush out metabolic waste products and ensuring your cells have the fluids they need to repair. By making water intake a priority, you ensure that your body is always prepared to perform at its highest potential."
+  },
+  {
+    page: "nutrition",
+    title: "Supplementation: What Actually Works?",
+    image: "/assets/images/nutrition6.webp",
+    body: "The supplement industry is a multi-billion dollar market filled with products that promise incredible results with minimal effort. However, it is important to remember that supplements are designed to 'supplement' a healthy diet and training plan, not replace them. For most people, ninety-five percent of their results will come from their food, sleep, and workouts, while supplements provide only a small, final edge.\n\nThere are only a handful of supplements that are backed by extensive scientific research and proven to be effective for most people. Creatine monohydrate is perhaps the most well-researched, proven to help with power output and muscle volume. Whey protein is a convenient way to meet your daily protein targets, especially after a workout. Finally, Vitamin D and Magnesium are often beneficial since many people are naturally deficient in these essential micronutrients.\n\nMany popular supplements, such as 'fat burners' or complex pre-workout formulas, are often overhyped and contain unnecessary fillers or high doses of stimulants. Before spending money on supplements, you should first ensure that your foundation is solid. No pill or powder can make up for a lack of consistency in the gym or a poor diet that is lacking in essential whole foods and nutrients.\n\nApproach supplementation with a critical eye and focus on what your specific body needs. If you suspect you have a deficiency, it is always best to consult with a professional and get blood work done before starting a new regimen. By keeping your supplement stack simple and evidence-based, you save money and ensure that you are only putting high-quality, effective ingredients into your body."
+  },
+
+  /* ================= JOURNAL PAGE (7 POSTS) ================= */
+  {
+    page: "journal",
+    title: "Day 1: The First Step",
+    image: "/assets/images/journal1.webp",
+    body: "Today marks the official beginning of my journey toward a healthier and stronger version of myself. For a long time, I have made excuses about not having enough time or not knowing where to start. Today, I decided to stop waiting for the 'perfect' moment and just took the first step, which was a simple thirty-minute walk through my local neighborhood.\n\nIt wasn't a world-breaking workout, but it was more than I have done in months. My goal for this first phase is not to transform my body overnight, but to transform my mindset. I want to prove to myself that I can be a person who keeps promises to themselves. Taking this first walk was a small win that felt surprisingly empowering and gave me a sense of momentum.\n\nI noticed how much better I felt mentally after just a bit of fresh air and movement. My stress levels dropped, and I felt a sense of clarity that I haven't had in a while. It’s a reminder that fitness isn't just about the physical results; it's about the immediate mental benefits that come from taking care of your body. The hardest part was truly just putting on my shoes and walking out the door.\n\nAs I reflect on this first day, I feel a mix of excitement and nervous energy. I know there will be days when I don't want to move, but I am writing this down to remind my future self why I started. I am committed to the process, no matter how slow it feels at first. Tomorrow is another opportunity to show up, and for now, that is all I am focused on."
+  },
+  {
+    page: "journal",
+    title: "Reflections on My First Month",
+    image: "/assets/images/journal2.webp",
+    body: "I have officially completed my first thirty days of consistent movement and mindful eating, and the results are already starting to show in unexpected ways. While my weight has changed slightly, the most significant differences are in my energy levels and my clothes. I no longer feel a mid-afternoon slump, and I find myself having much more focus during my work hours than I did just a month ago.\n\nThe biggest lesson I have learned in this first month is that consistency is far more powerful than intensity. In the past, I would try to do too much too soon and end up quitting within a week. This time, by setting smaller, more manageable goals, I have managed to show up every single day. I have learned that a 'bad' workout is still better than no workout at all.\n\nMy relationship with food is also beginning to shift. Instead of seeing food as something to be restricted, I am starting to see it as fuel for my activities. I've noticed that when I eat high-quality protein and vegetables, I feel much stronger during my workouts. This shift in perspective has made it much easier to make healthy choices without feeling like I am constantly depriving myself of enjoyment.\n\nLooking ahead to next month, I feel a sense of confidence that I didn't have at the beginning. The habits I have built are starting to feel automatic, and I am actually looking forward to my daily movement sessions. I know that there is still a long way to go, but I am proud of the foundation I have built. This journey is no longer a temporary project; it is becoming a part of who I am."
+  },
+  {
+    page: "journal",
+    title: "Dealing with a Setback",
+    image: "/assets/images/journal3.webp",
+    body: "This past week was a difficult one, as work stress and family obligations completely derailed my planned fitness schedule. I missed three days of workouts in a row, and my nutrition wasn't where I wanted it to be. In the past, a week like this would have caused me to give up entirely, feeling like I had 'failed' and that there was no point in continuing my efforts.\n\nHowever, I am learning that perfection is the enemy of progress. Life is always going to happen, and there will always be weeks that don't go according to plan. The difference this time is my response to the setback. Instead of beating myself up, I am choosing to treat myself with grace and simply start again today. One bad week does not erase a month of good work unless I let it.\n\nI realized that my setbacks often come when I try to control too many variables at once. Moving forward, I want to develop a 'minimum viable' plan for when life gets hectic. This might mean a ten-minute home workout instead of an hour-long gym session. By having a backup plan, I can maintain the habit of consistency even when I can't maintain the intensity of my usual routine.\n\nToday, I am back on track with a fresh perspective. I feel better already just for having completed my workout and prepared a healthy meal. This setback was a valuable lesson in resilience and a reminder that the journey is not a straight line. I am not aiming for perfection anymore; I am aiming for the ability to keep going, no matter what challenges come my way."
+  },
+  {
+    page: "journal",
+    title: "My Favorite Post-Workout Meal",
+    image: "/assets/images/journal4.webp",
+    body: "Today I want to document a meal that has become a staple in my routine: the salmon and quinoa bowl. For a long time, I thought 'healthy eating' had to be bland and boring, but this meal has completely changed that perception. It is packed with flavor, texture, and the exact nutrients my body needs to recover after a heavy lifting session or an intense cardio workout.\n\nThe salmon provides a high-quality source of protein and healthy omega-3 fatty acids, which are essential for reducing inflammation and supporting heart health. I pair it with quinoa, a complex carbohydrate that helps replenish my muscle glycogen stores, and a large portion of roasted broccoli for fiber and micronutrients. A squeeze of lemon and a bit of avocado on top adds the perfect finishing touch of healthy fats and acidity.\n\nEating for fuel feels so much better than eating just for taste or out of boredom. I've noticed that when I eat this meal within an hour of my workout, I feel significantly less sore the next day. My energy levels stay stable throughout the evening, and I don't find myself reaching for sugary snacks before bed. It's a clear example of how the right nutrition can accelerate the results of your hard work in the gym.\n\nLearning to cook simple, delicious, and healthy meals has been one of the most rewarding parts of this journey. It gives me a sense of control over my health and makes the process of reaching my goals feel enjoyable rather than a chore. I am excited to continue experimenting in the kitchen and finding more ways to fuel my body with the high-quality ingredients it deserves for peak performance."
+  },
+  {
+    page: "journal",
+    title: "Reaching a Personal Best",
+    image: "/assets/images/journal5.webp",
+    body: "Today was a major milestone in my journey as I finally hit my target weight on the squat rack. When I started three months ago, I could barely perform a bodyweight squat with proper form. Today, I stood up with a weight that I previously thought was impossible for someone like me. It was a moment of pure triumph that made all the early mornings and difficult sessions feel completely worth it.\n\nThis achievement is about so much more than just a number on a barbell. It is a tangible representation of my growth and the power of steady, incremental progress. I didn't reach this goal by doing something heroic once; I reached it by doing something small and difficult every single day for twelve weeks. This 'progressive overload' in the gym is a perfect metaphor for progress in all areas of life.\n\nI felt a surge of confidence as I completed that final repetition. It’s a reminder that we are often capable of much more than we give ourselves credit for. The mental barriers we place on ourselves are often the only thing holding us back from reaching our full potential. Seeing the numbers go up on the screen or the rack is the best motivation to keep pushing forward and seeing what else I can achieve.\n\nAs I move into my next phase of training, I am setting even higher goals. I want to see how much stronger I can get while maintaining my focus on form and safety. This personal best has lit a fire under me, and I am more committed than ever to the process. I am proof that with patience and a clear plan, anyone can achieve things they once thought were out of their reach."
+  },
+  {
+    page: "journal",
+    title: "Finding Balance in Life",
+    image: "/assets/images/journal6.webp",
+    body: "One of the most important realizations I have had lately is that fitness shouldn't be your whole life; it should enhance your life. In the beginning, I was so focused on my goals that I felt guilty every time I went out with friends or had a meal that wasn't 'on plan.' I was becoming physically healthier, but my social life and mental well-being were starting to suffer because of my rigidity.\n\nThis week, I made a conscious effort to find a better balance. I went out for a social dinner and enjoyed a pizza without any guilt, knowing that one meal wouldn't erase my weeks of hard work. I also took an extra rest day when I felt my body was genuinely tired, instead of forcing myself through a workout. This more flexible approach has actually made me feel more motivated to get back to my routine the next day.\n\nLearning to listen to my body and my mind is a skill that takes time to develop. I am starting to understand that long-term health is about the big picture, not the tiny details of every single day. If I can be consistent eighty percent of the time, I have plenty of room to enjoy life's pleasures during the other twenty percent. This balance is what makes a healthy lifestyle sustainable for the long term.\n\nI feel much more at peace with my journey now that I have removed the pressure of being perfect. I am training because I love my body and want it to be strong, not because I am punishing it for what I ate. This shift in mindset has made my workouts more enjoyable and my nutrition more intuitive. I am building a life that I love, and fitness is a key part of that, but it is no longer the only part."
+  }
+];
