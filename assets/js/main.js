@@ -331,7 +331,7 @@ const posts = [
                 <li><strong>Adenosine Clearance:</strong> Sleep clears the buildup of adenosine, which is responsible for the feeling of "brain fog."</li>
             </ul>
 
-            <img src="https://images.unsplash.com/photo-1541480601022-23057d163484?q=80&w=1000" alt="Relaxing Sleep Environment" style="width:100%; border-radius:12px; margin:20px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <img src="https://cdn.pixabay.com/photo/2017/07/25/09/10/people-2537324_1280.jpg" alt="Relaxing Sleep Environment" style="width:100%; border-radius:12px; margin:20px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
 
             <h2 style="color:#2e7d32; margin-top:30px;">Hormonal Balance and Weight Management</h2>
             <p>A lack of rest increases <strong>Cortisol</strong>, the stress hormone, which signals the body to store fat, particularly in the midsection. Furthermore, sleep deprivation disrupts <strong>Ghrelin and Leptin</strong>—the hormones that regulate hunger and satiety.</p>
