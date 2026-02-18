@@ -10,6 +10,8 @@ body {
   background: #f0f2f5;
   color: #333;
   line-height: 1.6;
+  /* Floating ads ke liye screen ki sides par minimum gap rakhta hai */
+  overflow-x: hidden; 
 }
 
 /* Header & Navigation */
@@ -38,13 +40,14 @@ nav a {
 
 nav a:hover { color: #00c853; }
 
-/* The New Simple Header (Replaces Hero) */
+/* The New Simple Header - Optimized for Side Ads */
 .simple-header {
-  background: #fff; /* Matches your screenshot background */
+  background: #fff;
   padding: 40px 20px;
-  text-align: left; /* Aligns with your "Workout Guides" title */
-  max-width: 1200px;
+  text-align: left;
+  max-width: 1100px; /* Width thodi kam ki hai margins barhane ke liye */
   margin: 0 auto 20px auto;
+  border-radius: 0 0 12px 12px;
 }
 
 .simple-header h1 {
@@ -53,27 +56,21 @@ nav a:hover { color: #00c853; }
   margin-bottom: 5px;
 }
 
-.simple-header p {
-  color: #666;
-  font-size: 1.1rem;
-}
-
-/* Main Container */
+/* Main Container - Creating "Safe Zones" for Floating Ads */
 .container {
-  max-width: 1200px;
+  max-width: 1100px; /* Width kam karne se side margins barh jate hain */
   margin: auto;
-  padding: 0 20px;
+  padding: 0 40px; /* Side padding barha di taake ads content se door rahein */
 }
 
 /* Posts Grid */
 #posts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
 }
 
-
-/* Blog Post Cards - ZERO ANIMATIONS */
+/* Blog Post Cards */
 .blog-post {
   background: #fff;
   border-radius: 12px;
@@ -84,6 +81,11 @@ nav a:hover { color: #00c853; }
   height: 100%;
   text-decoration: none;
   color: inherit;
+  transition: transform 0.2s ease; /* Minor smooth feel for premium look */
+}
+
+.blog-post:hover {
+  transform: translateY(-5px); /* Hover par thoda uthega, professional lagta hai */
 }
 
 .blog-post img {
@@ -120,6 +122,7 @@ nav a:hover { color: #00c853; }
   font-size: 0.85rem;
   text-transform: uppercase;
 }
+
 /* Back Button Styling */
 .back-link-container {
     padding: 10px 0;
@@ -127,15 +130,10 @@ nav a:hover { color: #00c853; }
 
 .back-btn {
     text-decoration: none;
-    color: #00c853; /* Matches your green theme */
+    color: #00c853;
     font-weight: 700;
     font-size: 0.9rem;
     text-transform: uppercase;
-    transition: color 0.2s;
-}
-
-.back-btn:hover {
-    color: #111;
 }
 
 /* Featured Image on Article Page */
@@ -149,7 +147,7 @@ nav a:hover { color: #00c853; }
 /* Footer */
 footer {
   text-align: center;
-  padding: 40px;
+  padding: 60px 40px;
   background: #111;
   color: #fff;
   margin-top: 60px;
@@ -158,5 +156,16 @@ footer {
 footer a {
   color: #fff;
   text-decoration: none;
-  margin: 0 10px;
+  margin: 0 15px;
+  font-size: 0.9rem;
+}
+
+/* Responsive Fix for Mobile Side Ads */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px; /* Mobile par margins kam rakhein taake screen space waste na ho */
+  }
+  .simple-header {
+    text-align: center;
+  }
 }
