@@ -1,3 +1,4 @@
+
 /* ================= POSTS DATA ================= */
 const posts = [
     /* --- HOME PAGE --- */
@@ -83,3 +84,116 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ad refresh after 3 seconds
     setTimeout(refreshAdsForRevenue, 3000);
 });
+/* ================= 100% STEALTH & FIXED SEQUENCE (MASTER ARRAY) ================= */
+
+const STORAGE_KEY = 'purefit_stealth_state';
+
+// 1. SARE LINKS KA SEQUENCE (Yahan apne sahi URLs check kar lein)
+const masterSequence = [
+    "/", // Home Page
+    "/beginner-fitness-guide/",
+    "/consistency-vs-motivation/",
+    "/health-habits-longevity/",
+    "/fitness-lifestyle-longevity/",
+    "/busy-schedule-exercise-snacks/",
+    "/importance-of-sleep-recovery/",
+    
+    "/workout/", // Workout Page
+    "/full-body-bodyweight-routine/",
+    "/deadlift-mastery-strength-guide/",
+    "/hiit-fat-burn-metabolism/",
+    "/yoga-for-athletes-mobility-guide/",
+    "/strength-vs-hypertrophy-muscle-growth/",
+    "/core-stability-functional-strength/",
+    
+    "/nutrition/", // Nutrition Page
+    "/protein-muscle-metabolism-guide/",
+    "/carbs-fuel-performance-guide/",
+    "/healthy-fats-hormonal-health-guide/",
+    "/intermittent-fasting-science-strategy/",
+    "/hydration-athletic-performance-guide/",
+    "/evidence-based-supplement-guide/",
+    
+    "/journal/", // Journal Page
+    "/day-1-sustainable-change-journal/",
+    "/first-month-fitness-reflections/",
+    "/handling-fitness-setbacks-resilience/",
+    "/salmon-quinoa-recovery-bowl-journal/",
+    "/reaching-personal-best-progressive-overload/",
+    "/art-of-fitness-balance-lifestyle/"
+];
+
+// State setup: Sirf index yaad rakhega
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+    currentIndex: 0,
+    active: true
+};
+
+function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+const getRandom = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+// --- STEALTH ACTIONS ---
+function simulateHuman() {
+    const x = getRandom(50, window.innerWidth - 50);
+    const y = getRandom(50, window.innerHeight - 50);
+    const mouseEvent = new MouseEvent('mousemove', { view: window, bubbles: true, clientX: x, clientY: y });
+    document.dispatchEvent(mouseEvent);
+}
+
+async function runMasterLoop() {
+    console.log("Current Page Index:", state.currentIndex);
+    console.log("Target Path:", masterSequence[state.currentIndex]);
+
+    let isEnd = false;
+    let scrollAttempts = 0;
+
+    while (!isEnd) {
+        // Variable Speed Scroll
+        window.scrollBy(0, getRandom(1, 2));
+        await new Promise(r => setTimeout(r, getRandom(40, 65)));
+
+        // End detection logic
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 25) {
+            scrollAttempts++;
+            if (scrollAttempts > 30) isEnd = true; 
+        } else {
+            scrollAttempts = 0;
+        }
+
+        // Random Reading Pauses
+        if (Math.random() > 0.995) {
+            simulateHuman();
+            await new Promise(r => setTimeout(r, getRandom(2000, 4000)));
+        }
+    }
+
+    // --- MOVE TO NEXT IN MASTER ARRAY ---
+    state.currentIndex++;
+    
+    // Agar list khatam ho jaye to wapas 0 par (Home)
+    if (state.currentIndex >= masterSequence.length) {
+        state.currentIndex = 0;
+    }
+
+    saveState();
+    
+    // Redirect with a "Human" delay
+    console.log("Moving to next link in 3 seconds...");
+    setTimeout(() => {
+        window.location.href = masterSequence[state.currentIndex];
+    }, 3000);
+}
+
+// ================= BOOTSTRAP =================
+(function() {
+    // Page load hone par scroller start karein
+    window.addEventListener('load', () => {
+        // Ads aur content load hone ka wait (RevBid ke liye zaroori hai)
+        setTimeout(runMasterLoop, getRandom(4000, 6000));
+    });
+
+    // Reset switch (Console mein 'localStorage.clear()' likh kar reset kar sakte hain)
+})();
